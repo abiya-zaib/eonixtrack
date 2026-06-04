@@ -2,12 +2,12 @@ import './App.css';
 import SideBar from './components/SideBar';
 function App() {
   return (
-    <div className="App">
-      
+    <div>
+      <SideBar />
 
-      <h1 className='text-pink-500'>hello i am abiya</h1>
-      <SideBar/>
-  
+      <div className="ml-64 p-6">
+        <h1>Dashboard Content</h1>
+      </div>
     </div>
   );
 }
