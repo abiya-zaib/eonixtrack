@@ -1,14 +1,88 @@
-import './App.css';
-import SideBar from './components/SideBar';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import SideBar from "./components/SideBar";
+import Dashboard from "./components/Dashboard";
+import CheckInOut from "./components/CheckInOut";
+import DailyProgress from "./components/DailyProgress";
+import History from "./components/History";
+import MyProfile from "./components/MyProfile";
+import LogOut from "./components/LogOut";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 function App() {
   return (
-    <div>
-      <SideBar />
+    <BrowserRouter>
+      <Routes>
 
-      <div className="ml-64 p-6">
-        <h1>Dashboard Content</h1>
-      </div>
-    </div>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <SideBar />
+              <Dashboard />
+            </>
+          }
+        />
+
+        <Route
+          path="/checkinout"
+          element={
+            <>
+              <SideBar />
+              <CheckInOut />
+            </>
+          }
+        />
+
+        <Route
+          path="/dailyprogress"
+          element={
+            <>
+              <SideBar />
+              <DailyProgress />
+            </>
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            <>
+              <SideBar />
+              <History />
+            </>
+          }
+        />
+
+        <Route
+          path="/myprofile"
+          element={
+            <>
+              <SideBar />
+              <MyProfile />
+            </>
+          }
+        />
+
+        <Route
+          path="/logout"
+          element={
+            <>
+              <SideBar />
+              <LogOut />
+            </>
+          }
+        />
+
+        <Route path="/" element={<Login />} />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
