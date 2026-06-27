@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import SideBar from "./components/SideBar";
 import Dashboard from "./components/Dashboard";
@@ -16,9 +16,12 @@ function App() {
     <BrowserRouter>
       <Routes>
 
+        {/* Authentication Pages */}
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -29,6 +32,7 @@ function App() {
           }
         />
 
+        {/* Employee Pages */}
         <Route
           path="/checkinout"
           element={
@@ -79,7 +83,8 @@ function App() {
           }
         />
 
-        <Route path="/" element={<Login />} />
+        {/* Invalid Routes Redirect to Login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </BrowserRouter>

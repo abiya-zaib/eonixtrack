@@ -2,6 +2,8 @@ import { Card, Button } from "flowbite-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAttendanceStats } from "../api/dashboardApi";
+import axios from "axios";
+
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -35,23 +37,32 @@ function Dashboard() {
     fetchStats();
   }, []);
 
-  const [payments, setPayments] = useState([
-    {
-      id: 1,
-      name: "Ayesha Khan",
-      paid: 15000,
-    },
-    {
-      id: 2,
-      name: "Ali Raza",
-      paid: 12000,
-    },
-    {
-      id: 3,
-      name: "Zainab Fatima",
-      paid: 10000,
-    },
-  ]);
+
+const [payments, setPayments] = useState([]);
+
+useEffect(() => {
+  const fetchStudents = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/users/students"
+      );
+
+      const formattedStudents = res.data.map(
+        (student) => ({
+          id: student._id,
+          name: student.name,
+          paid: 0,
+        })
+      );
+
+      setPayments(formattedStudents);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchStudents();
+}, []);
 
   const handleDelete = (id) => {
     setPayments(
@@ -166,7 +177,7 @@ function Dashboard() {
 
                 return (
                   <div
-                    key={student.id}
+                    key={student.id || student._id}
                     className="border rounded-lg p-4 bg-white shadow-sm"
                   >
                     <div className="flex justify-between items-center mb-4">

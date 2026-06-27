@@ -11,6 +11,8 @@ export default function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,35 +21,38 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        formData
-      );
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      formData
+    );
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res.data.user)
-      );
+    console.log("Login Response:", res.data);
+    console.log("User Role:", res.data.user.role);
 
-      if (res.data.user.role === "Admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/checkinout");
-      }
+    localStorage.setItem(
+      "user",
+      JSON.stringify(res.data.user)
+    );
 
-    } catch (error) {
-      alert("Invalid Credentials");
+    if (res.data.user.role === "Admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/checkinout");
     }
-  };
+
+  } catch (error) {
+    alert("Invalid Credentials");
+  }
+};
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
 
-        <h1 className="text-3xl font-bold mb-2 text-black">
+        <h1 className="text-3xl font-bold mb-2">
           Sign In
         </h1>
 
@@ -58,7 +63,7 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
 
           <div>
-            <label className="block mb-2 font-medium text-black">
+            <label className="block mb-2 font-medium">
               Email
             </label>
 
@@ -72,7 +77,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="block mb-2 font-medium text-black">
+            <label className="block mb-2 font-medium">
               Password
             </label>
 
@@ -85,13 +90,16 @@ export default function Login() {
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Sign In
-          </Button>
+          <button
+  type="submit"
+  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+>
+  Sign In
+</button>
 
         </form>
 
-        <p className="mt-4 text-center text-gray-700">
+        <p className="mt-4 text-center">
           Don't have an account?{" "}
           <Link
             to="/register"
